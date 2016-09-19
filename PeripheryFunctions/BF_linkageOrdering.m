@@ -39,7 +39,7 @@ end
 % on the number of items for which it is efficient to apply the optimalleaforder
 % algorithm. 2000 is the number
 
-if numItems < 2000 % small enough to try optimalleaforder
+if numItems < 4000 % small enough to try optimalleaforder
     try
         ord = optimalleaforder(links,distMat);
         % [~,~,ord] = dendrogram(links,0,'r',ord);

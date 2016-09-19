@@ -124,7 +124,7 @@ if doViolin
         extraParams.customOffset = -0.5;
         extraParams.offsetRange = 0.7;
 
-        ax = subplot(1,4,1:2);
+        ax = subplot(1,3,1);
         [ff,xx] = BF_JitteredParallelScatter(dataCell,1,1,0,extraParams);
 
         % Annotate lines for each feature in the distribution:
@@ -148,7 +148,7 @@ if doViolin
         extraParams = struct();
         extraParams.theColors = {ones(3,1)*0.5};
 
-        ax = subplot(1,4,1:2);
+        ax = subplot(1,3,1);
         [ff,xx] = BF_JitteredParallelScatter(dataCell,1,1,0,extraParams);
 
         % Annotate lines for each feature in the distribution:
@@ -167,7 +167,7 @@ if doViolin
     ylabel('Feature value');
 
     % Time series annotations (cycling through groups of 10 rainbow colors):
-    ax = subplot(1,4,3:4);
+    ax = subplot(1,3,2:3);
     plotOptions.newFigure = 0;
     plotOptions.colorMap = cell(annotateParams.n,1);
     for i = 1:annotateParams.n
