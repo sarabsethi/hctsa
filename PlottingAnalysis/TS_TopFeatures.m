@@ -97,7 +97,7 @@ if ~isfield(TimeSeries,'Group')
 end
 timeSeriesGroup = [TimeSeries.Group]'; % Use group form
 numClasses = max(timeSeriesGroup); % Assuming classes labeled with integers starting at 1
-groupNames = TS_GetFromData(whatDataFile,'groupNames');
+groupNames = TS_GetFromData(whatData,'groupNames');
 if isempty(groupNames)
     error('No group label info in the data source');
 end
@@ -301,7 +301,7 @@ if any(ismember(whatPlots,'distributions'))
         % Loop through features
         for opi = 1:length(featHere)
             subplot(ceil(length(featHere)/4),4,opi);
-            TS_SingleFeature(data,featHere(opi),1,0,testStat(featHere(opi)),0);
+            TS_SingleFeature(data,Operations(featHere(opi)).ID,1,0,testStat(featHere(opi)),0);
         end
     end
 
@@ -376,7 +376,7 @@ if any(ismember(whatPlots,'cluster'))
     op_ind = ifeat(1:numTopFeatures); % plot these operations indices
 
     % (if it exists already, use that; otherwise compute it on the fly)
-    clustStruct = TS_GetFromData(whatDataFile,'op_clust');
+    clustStruct = TS_GetFromData(whatData,'op_clust');
     if isempty(clustStruct) % doesn't exist
         clustStruct = struct();
     end

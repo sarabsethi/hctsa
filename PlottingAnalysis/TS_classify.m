@@ -61,7 +61,7 @@ end
 if ~isfield(TimeSeries,'Group')
     error('Group labels not assigned to time series. Use TS_LabelGroups.');
 end
-load(dataFile,'groupNames');
+groupNames = TS_GetFromData(whatData,'groupNames');
 timeSeriesGroup = [TimeSeries.Group]'; % Use group form (column vector)
 numClasses = max(timeSeriesGroup); % assuming group in form of integer class labels starting at 1
 numFeatures = length(Operations);
@@ -134,6 +134,8 @@ ax = gca;
 ax.XTickLabel(1:numClasses) = groupNames;
 ax.YTickLabel(1:numClasses) = groupNames;
 ax.TickLabelInterpreter = 'none';
+% Make a nice white figure background:
+f = gcf; f.Color = 'w';
 
 %-------------------------------------------------------------------------------
 % Compare performance of reduced PCs from the data matrix:

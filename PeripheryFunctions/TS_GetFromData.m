@@ -37,12 +37,22 @@ if isstruct(dataSource)
     else
         result = [];
     end
-end
 
 %-------------------------------------------------------------------------------
 % Often you provide a .mat file name: load in from file
 %-------------------------------------------------------------------------------
-if ischar(dataSource)
+elseif ischar(dataSource)
+
+    % Decode shorthands for default filenames 'raw', 'loc', 'norm', and 'cl':
+    switch dataSource
+    case {'raw','loc'} % the raw, un-normalized data:
+        dataSource = 'HCTSA.mat';
+    case 'norm' % the normalized data:
+        dataSource = 'HCTSA_N.mat';
+    case 'cl' % the clustered data:
+        dataSource = 'HCTSA_N.mat';
+    end
+
     fileVarsStruct = whos('-file',dataSource);
     fileVars = {fileVarsStruct.name};
     if ismember(dataField,fileVars)
@@ -51,6 +61,8 @@ if ischar(dataSource)
     else
         result = [];
     end
+else
+    error('Unknown data source type');
 end
 
 end
