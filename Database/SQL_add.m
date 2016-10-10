@@ -1,9 +1,8 @@
 function structArray = SQL_add(addWhat, inputFile, forDatabase, beVocal)
-% SQL_add
+% SQL_add   Interpret a structured input file of time series, operations,
+%           or master operations.
 %
-% Interprets a structured input file of time series time series, operations,
-% or master operations
-% Can also (by default) add the results to a linked mySQL database.
+% By default adds the results to a linked mySQL database.
 %
 %---INPUTS:
 % addWhat: 'mops' (for master operations), 'ops' (for operations), or 'ts'
@@ -476,8 +475,13 @@ case 'ts' % Prepare toAdd cell for time series
 
     % Tell them about it:
     if beVocal
-        fprintf(1,['\nAll time-series data loaded (%u/%u passed quality tests),' ...
-            ' ready to be uploaded to the mySQL database.\n'],sum(wasGood),length(wasGood));
+        if forDatabase
+            textShow = ', ready to be uploaded to the mySQL database';
+        else
+            textShow = '';
+        end
+        fprintf(1,'\nAll time-series data loaded (%u/%u passed quality tests)%s.\n',...
+                        sum(wasGood),length(wasGood),textShow);
         if any(~wasGood)
             input(sprintf('[List %u time series that failed... (press any key)]',sum(~wasGood)),'s');
             iNoGood = find(~wasGood);
