@@ -16,7 +16,7 @@ function structArray = SQL_add(addWhat, inputFile, forDatabase, beVocal)
 % beVocal: if 1 (default) gives user feedback on the input process.
 
 % ------------------------------------------------------------------------------
-% Copyright (C) 2015, Ben D. Fulcher <ben.d.fulcher@gmail.com>,
+% Copyright (C) 2016, Ben D. Fulcher <ben.d.fulcher@gmail.com>,
 % <http://www.benfulcher.com>
 %
 % If you use this code for your research, please cite:
@@ -364,8 +364,15 @@ case 'ts' % Prepare toAdd cell for time series
             TimeSeries(j).Keywords = inputData.keywords{j}; % Take out inverted commas from keywords lists
             if iscell(inputData.timeSeriesData)
                 x = inputData.timeSeriesData{j};
+                if size(x,2) > size(x,1)
+                    x = x';
+                    fprintf(1,'Transposing time series\n');
+                end
+                if size(x,2) ~= 1
+                    error('Multivariate time series input? Each element of timeSeriesData must be univariate');
+                end
             else
-                x = inputData.timeSeriesData(j,:);
+                x = inputData.timeSeriesData(j,:)'; % time series data ought to be column vectors
             end
         else
             TimeSeries(j).Name = dataIn{j,1};

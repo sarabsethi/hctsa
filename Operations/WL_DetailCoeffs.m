@@ -19,7 +19,7 @@ function out = WL_DetailCoeffs(y, wname, maxlevel)
 % Statistics on the detail coefficients.
 
 % ------------------------------------------------------------------------------
-% Copyright (C) 2015, Ben D. Fulcher <ben.d.fulcher@gmail.com>,
+% Copyright (C) 2016, Ben D. Fulcher <ben.d.fulcher@gmail.com>,
 % <http://www.benfulcher.com>
 %
 % If you use this code for your research, please cite:
@@ -121,9 +121,9 @@ out.std_median = std(medians);
 out.std_max = std(maxs);
 
 % At what level is the maximum
-out.wheremax_mean = find(means == means_s(1));
-out.wheremax_median = find(medians == medians_s(1));
-out.wheremax_max = find(maxs == maxs_s(1));
+out.wheremax_mean = find(means == means_s(1),1,'first');
+out.wheremax_median = find(medians == medians_s(1),1,'first');
+out.wheremax_max = find(maxs == maxs_s(1),1,'first');
 
 % Size of maximum (relative to next maximum)
 out.max1on2_mean = means_s(1)/means_s(2);

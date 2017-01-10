@@ -37,7 +37,7 @@ function out = NL_TISEAN_c1(y, tau, mmm, tsep, Nref)
 % executed in the command line.
 
 % ------------------------------------------------------------------------------
-% Copyright (C) 2015, Ben D. Fulcher <ben.d.fulcher@gmail.com>,
+% Copyright (C) 2016, Ben D. Fulcher <ben.d.fulcher@gmail.com>,
 % <http://www.benfulcher.com>
 %
 % If you use this code for your research, please cite:
@@ -78,6 +78,11 @@ elseif N == 65 || N==66 || N == 70
     out = NaN; return
 end
 
+% Also freezes on constant data
+if length(unique(y))==1
+    out = NaN; return
+end
+
 % ------------------------------------------------------------------------------
 %% Check inputs
 % ------------------------------------------------------------------------------
@@ -93,7 +98,7 @@ end
 
 % Min/max embedding dimension, mmm
 if nargin < 3 || isempty(mmm)
-    mmm = [2, 10];
+    mmm = [2,10];
 end
 if length(mmm)~=2
     error('Please set a minimum and maximum embedding dimension as a 2-vector');
@@ -167,7 +172,9 @@ if isempty(res) || ~isempty(regexp(res,'command not found', 'once')) % nothing c
 end
 
 % fprintf(1,'TISEAN routine c2d on c1 output took %s\n',BF_thetime(toc(c2dtimer),1))
-if exist([filePath '.c1'],'file'), delete([filePath '.c1']); end % remove the TISEAN file write output
+if exist([filePath '.c1'],'file')
+    delete([filePath '.c1']);
+end % remove the TISEAN file write output
 
 % ------------------------------------------------------------------------------
 %% Get the output
@@ -320,11 +327,11 @@ out.longestscr = max(c1sc(:,6)); % (a log difference)
         end
 
     end
-% 
+%
 %     function [thevector, thematrix] = SUB_celltomat(thecell,thecolumn)
 %         % converts cell to matrix, where each (specified) column in cell
 %         % becomes a column in the new matrix
-% 
+%
 %         % But higher dimensions may not reach low enough length scales
 %         % rescale range to greatest common span
 %         nn = length(thecell);
@@ -339,12 +346,12 @@ out.longestscr = max(c1sc(:,6)); % (a log difference)
 %         end
 %         thevector = thecell{1}(:,1);
 %         ee = length(thevector);
-% 
+%
 %         thematrix = zeros(nn,ee); % across the rows for dimensions; across columns for lengths/epsilons
 %         for ii = 1:nn
 %             thematrix(ii,:) = thecell{ii}(:,thecolumn);
 %         end
-% 
+%
 %     end
 
     function results = findscalingr_ind(x)

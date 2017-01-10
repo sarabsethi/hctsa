@@ -22,7 +22,7 @@ function [TS_DataMat,TimeSeries,Operations,whatDataFile] = TS_LoadData(whatDataF
 %               the data
 
 % ------------------------------------------------------------------------------
-% Copyright (C) 2015, Ben D. Fulcher <ben.d.fulcher@gmail.com>,
+% Copyright (C) 2016, Ben D. Fulcher <ben.d.fulcher@gmail.com>,
 % <http://www.benfulcher.com>
 %
 % If you use this code for your research, please cite:
@@ -45,7 +45,7 @@ if nargin < 1 || isempty(whatDataFile)
     whatDataFile = 'norm';
 end
 if nargin < 2 || isempty(getClustered)
-    getClustered = 0;
+    getClustered = false;
 end
 
 %-------------------------------------------------------------------------------
@@ -76,13 +76,13 @@ end
 switch whatDataFile
 case {'raw','loc'} % the raw, un-normalized data:
     whatDataFile = 'HCTSA.mat';
-    getClustered = 0;
+    getClustered = false;
 case 'norm' % the normalized data:
     whatDataFile = 'HCTSA_N.mat';
-    getClustered = 0;
+    getClustered = false;
 case 'cl' % the clustered data:
     whatDataFile = 'HCTSA_N.mat';
-    getClustered = 1;
+    getClustered = true;
 end
 
 %-------------------------------------------------------------------------------
