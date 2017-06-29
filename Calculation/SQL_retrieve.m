@@ -404,9 +404,9 @@ end
 
 % 1. Retrieve Time Series Metadata
 if ischar(ts_ids) && strcmp(ts_ids,'all')
-	selectString = 'SELECT Name, Keywords, Length, Data FROM TimeSeries';
+	selectString = 'SELECT Filename, Keywords, Length, Data FROM TimeSeries';
 else
-	selectString = sprintf(['SELECT Name, Keywords, Length, Data FROM ',...
+	selectString = sprintf(['SELECT Filename, Keywords, Length, Data FROM ',...
 								'TimeSeries WHERE ts_id IN (%s)'],ts_ids_string);
 end
 [tsinfo,emsg] = mysql_dbquery(dbc,selectString);
@@ -419,17 +419,17 @@ tsinfo = [num2cell(tsids_db),tsinfo];
 scanCommas = @(x) textscan(x,'%f','Delimiter',',');
 takeFirstCell = @(x) x{1};
 tsinfo(:,end) = cellfun(@(x) takeFirstCell(scanCommas(x)),tsinfo(:,end),'UniformOutput',0); % Do the conversion
-TimeSeries = cell2struct(tsinfo',{'ID','Name','Keywords','Length','Data'}); % Convert to structure array
+TimeSeries = cell2struct(tsinfo',{'ID','Filename','Keywords','Length','Data'}); % Convert to structure array
 
 
 % 2. Retrieve Operation Metadata
 % (even if specify 'all', can be fewer for 'null','error' cases, where you restrict
 % the operations that are actually retrieved to the local file)
 % [would still probably be faster to retrieve all above, and then subset the info using keepi]
-selectString = sprintf('SELECT Name, Keywords, Code, mop_id FROM Operations WHERE op_id IN (%s)',op_ids_string);
+selectString = sprintf('SELECT OpName, Keywords, Code, mop_id FROM Operations WHERE op_id IN (%s)',op_ids_string);
 opinfo = mysql_dbquery(dbc,selectString);
 opinfo = [num2cell(opids_db), opinfo]; % add op_ids
-Operations = cell2struct(opinfo',{'ID','Name','Keywords','CodeString','MasterID'});
+Operations = cell2struct(opinfo',{'ID','OpName','Keywords','CodeString','MasterID'});
 
 
 % Check that no operations have bad links to master operations:
